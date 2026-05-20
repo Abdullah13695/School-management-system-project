@@ -1,0 +1,110 @@
+package model;
+import service.SchoolService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class Student extends Person {
+
+    private String className;
+    private double feeBalance;
+    private boolean feePaid;
+    private List<String> attendanceRecords; 
+    private List<String> gradeRecords;      
+
+    public Student(String id, String name, String email, String password, String className) {
+        super(id, name, email, password); 
+        this.className        = className;
+        this.feeBalance       = 15000.0;  
+        this.feePaid          = false;
+        this.attendanceRecords = new ArrayList<>();
+        this.gradeRecords      = new ArrayList<>();
+    }
+
+    
+    @Override
+    public String getRole() {
+        return "Student";
+    }
+
+    @Override
+    public void showDashboard() {
+        System.out.println("\n╔══════════════════════════════════════╗");
+        System.out.println("║         STUDENT DASHBOARD             ║");
+        System.out.println("╚══════════════════════════════════════╝");
+        System.out.println("  Name  : " + getName());
+        System.out.println("  ID    : " + getId());
+        System.out.println("  Class : " + className);
+        System.out.println("  Fee   : " + (feePaid ? "✓ Paid" : "✗ Pending - PKR " + feeBalance));
+        System.out.println("  Attendance Records : " + attendanceRecords.size());
+        System.out.println("  Grade Records      : " + gradeRecords.size());
+        System.out.println("----------------------------------------");
+        System.out.println("  Options:");
+        System.out.println("  [1] View Attendance");
+        System.out.println("  [2] View Grades");
+        System.out.println("  [3] View Fee Status");
+        System.out.println("  [0] Logout");
+    }
+
+    
+    public void addAttendanceRecord(String record) {
+        attendanceRecords.add(record);
+    }
+
+    public void addGradeRecord(String record) {
+        gradeRecords.add(record);
+    }
+
+    public void viewAttendance() {
+        System.out.println("\n--- Attendance Records ---");
+        if (attendanceRecords.isEmpty()) {
+            System.out.println("  No records found.");
+            return;
+        }
+        int present = 0;
+        for (String record : attendanceRecords) {
+            System.out.println("  " + record);
+            if (record.contains("Present")) present++;
+        }
+        double pct = (attendanceRecords.size() > 0)
+                ? (present * 100.0 / attendanceRecords.size()) : 0;
+        System.out.printf("  Attendance: %d/%d (%.1f%%)%n",
+                present, attendanceRecords.size(), pct);
+    }
+
+    public void viewGrades() {
+        System.out.println("\n--- Grade Records ---");
+        if (gradeRecords.isEmpty()) {
+            System.out.println("  No grades found.");
+            return;
+        }
+        for (String record : gradeRecords) {
+            System.out.println("  " + record);
+        }
+    }
+
+    public void viewFeeStatus() {
+        System.out.println("\n--- Fee Status ---");
+        System.out.println("  Total Fee Due : PKR " + feeBalance);
+        System.out.println("  Status        : " + (feePaid ? "PAID ✓" : "UNPAID ✗"));
+    }
+
+    
+    public String getClassName()           { return className;   }
+    public double getFeeBalance()          { return feeBalance;  }
+    public boolean isFeePaid()             { return feePaid;     }
+    public List<String> getAttendanceRecords() { return attendanceRecords; }
+    public List<String> getGradeRecords()  { return gradeRecords; }
+
+    public void setFeePaid(boolean feePaid)        { this.feePaid    = feePaid;    }
+    public void setFeeBalance(double feeBalance)   { this.feeBalance = feeBalance; }
+    public void setClassName(String className)     { this.className  = className;  }
+
+   
+    @Override
+    public String toString() {
+        return super.toString() + " | Class: " + className
+                + " | Fee: " + (feePaid ? "Paid" : "Pending");
+    }
+}

@@ -1,0 +1,65 @@
+package model;
+import service.SchoolService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Teacher extends Person {
+
+    private String subject;
+    private String assignedClass;
+    private List<String> uploadedResults; 
+
+    public Teacher(String id, String name, String email, String password,
+                   String subject, String assignedClass) {
+        super(id, name, email, password);
+        this.subject        = subject;
+        this.assignedClass  = assignedClass;
+        this.uploadedResults = new ArrayList<>();
+    }
+
+    
+    @Override
+    public String getRole() {
+        return "Teacher";
+    }
+
+    @Override
+    public void showDashboard() {
+        System.out.println("\n|=====================================|");
+        System.out.println("|         TEACHER DASHBOARD             |");
+        System.out.println("|=======================================|");
+        System.out.println("  Name           : " + getName());
+        System.out.println("  ID             : " + getId());
+        System.out.println("  Subject        : " + subject);
+        System.out.println("  Assigned Class : " + assignedClass);
+        System.out.println("  Results Uploaded: " + uploadedResults.size());
+        System.out.println("----------------------------------------");
+        System.out.println("  Options:");
+        System.out.println("  [1] Mark Attendance");
+        System.out.println("  [2] Upload Exam Result");
+        System.out.println("  [3] View Uploaded Results");
+        System.out.println("  [0] Logout");
+    }
+
+    public void addUploadedResult(String result) {
+        uploadedResults.add(result);
+    }
+
+    public List<String> getUploadedResults() {
+        return uploadedResults;
+    }
+
+    
+    public String getSubject()       { return subject;       }
+    public String getAssignedClass() { return assignedClass; }
+
+    public void setSubject(String subject)             { this.subject       = subject;       }
+    public void setAssignedClass(String assignedClass) { this.assignedClass = assignedClass; }
+
+    
+    @Override
+    public String toString() {
+        return super.toString() + " | Subject: " + subject + " | Class: " + assignedClass;
+    }
+}
